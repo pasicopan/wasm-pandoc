@@ -21,7 +21,7 @@ node --experimental-wasi-unstable-preview1 --trace-warnings wasm-pandoc.mjs
 ```
 
 ### TODO
-[] convert BSL.ByteString to T.Text in wasm from haskell, [detail](https://github.com/y-taka-23/wasm-pandoc/issues/6)
-[] convert 'docx' to 'html in browser and nodejs
-[] reduce *.wasm file size, less than 8M
-[] reduce BSL.ByteString  or T.Text to BSL.ByteString in wasm from haskell
+1. - [ ] convert BSL.ByteString to T.Text in wasm from haskell, [see detail](https://github.com/y-taka-23/wasm-pandoc/issues/6)
+1. - [ ] convert 'docx' to 'html in browser and nodejs
+1. - [ ] reduce *.wasm file size, less than 8M
+1. - [ ] reduce BSL.ByteString  or T.Text to BSL.ByteString in wasm from haskell
