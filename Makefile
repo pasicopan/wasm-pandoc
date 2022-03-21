@@ -22,6 +22,20 @@ link: compile
 			--input-mjs static/index.mjs --no-main --browser \
 			--gc-threshold 640
 
+.PHONY: linkNode
+linkNode: compile
+	docker run --rm -v $(CURDIR):$(DOCKER_WS) -w $(DOCKER_WS) $(DOCKER_IMAGE) \
+		ahc-dist \
+			--input-exe $(AHC_CABAL_INSTALL_DIR)/wasm-pandoc \
+			--output-directory $(ASTERIUS_OUTPUT_DIR) \
+			--input-mjs static/node.mjs --no-main \
+			--gc-threshold 640
+
+.PHONY: startNode
+startNode: 
+	cd ${ASTERIUS_OUTPUT_DIR}
+	node --experimental-wasi-unstable-preview1 --trace-warnings wasm-pandoc.mjs
+
 .PHONY: start
 start: link
 	npm install

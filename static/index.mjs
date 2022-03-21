@@ -3,6 +3,7 @@ import module from './wasm-pandoc.wasm.mjs';
 import req from './wasm-pandoc.req.mjs';
 
 async function handleModule(m) {
+  console.log('handleModule: ');
 
   const asterius = await rts.newAsteriusInstance(Object.assign(req, { module: m }));
 
@@ -37,14 +38,27 @@ async function handleModule(m) {
   const convert = async function() {
     const inputString = input.getValue();
     try {
+      console.log('convert', from, to, inputString);
       const outputString = await asterius.exports.convert(from, to, inputString);
+      console.log('outputString: ', outputString);
       if (outputString) {
         output.setValue(outputString);
       }
     } catch (err) {
+      console.error('convert', err);
+    }
+  }
+  const convert2 = async function(from, to, inputString) {
+    try {
+      console.log('convert2', from, to, inputString);
+      const outputString = await asterius.exports.convert(from, to, inputString);
+      console.log('outputString2', outputString);
+      window.outputString2 = outputString2
+    } catch (err) {
       console.error(err);
     }
   }
+  window.convert2 = convert2
 
   input.on('change', async function(cm, change) {
     await convert();
@@ -97,6 +111,24 @@ async function handleModule(m) {
     output.setOption('mode', toMode(to));
     await convert();
   };
+
+  var fileInput = document.getElementById('fileInput');
+
+  fileInput.addEventListener('change', handler);
+  console.log('addEventListener: ');
+  function handler(){
+      console.log('handler: ');
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+      reader.onload = function () {
+          var arrayBuffer = reader.result;
+          var i8a = new Uint8Array(arrayBuffer); 
+          console.log('Uint8Array: ', i8a);
+          window.i8a = i8a
+          convert2('docx', 'html', i8a);
+      };
+  }
 
   const defaultMarkdown = `Pandoc in Wasm
 ==============

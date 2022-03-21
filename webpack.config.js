@@ -1,9 +1,13 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
+// process.env.ASTERIUS_OUTPUT_DIR
+const ASTERIUS_OUTPUT_DIR = process.env.ASTERIUS_OUTPUT_DIR || '_build/asterius'
+
+
 module.exports = {
   mode: 'production',
-  entry: `./${process.env.ASTERIUS_OUTPUT_DIR}/wasm-pandoc.mjs`,
+  entry: `./${ASTERIUS_OUTPUT_DIR}/wasm-pandoc.mjs`,
   output: {
     path: path.resolve(__dirname, 'docs'),
     filename: 'index.js',
@@ -13,7 +17,7 @@ module.exports = {
       patterns: [
         { from: 'index.html', context: 'static/' },
         { from: '*.css', context: 'static/' },
-        { from: '*.wasm', context: `${process.env.ASTERIUS_OUTPUT_DIR}` }
+        { from: '*.wasm', context: `${ASTERIUS_OUTPUT_DIR}` }
       ]
     })
   ],

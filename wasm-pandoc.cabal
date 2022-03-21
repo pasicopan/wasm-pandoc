@@ -11,5 +11,6 @@ executable wasm-pandoc
   build-depends:        base
                       , asterius-prelude
                       , pandoc
+                      , bytestring
                       , text
   default-language:     Haskell2010
